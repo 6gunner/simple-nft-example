@@ -58,7 +58,10 @@ export default function Contract({
   contractConfig,
 }) {
   const contracts = useContractLoader(provider, contractConfig, chainId);
+
+  console.log("contracts = ", contracts);
   let contract;
+  // 没有传contract来
   if (!customContract) {
     contract = contracts ? contracts[name] : "";
   } else {
@@ -66,13 +69,15 @@ export default function Contract({
   }
 
   const address = contract ? contract.address : "";
+  console.log("contract.address = ", address);
   const contractIsDeployed = useContractExistsAtAddress(provider, address);
+  console.log("contractIsDeployed = ", contractIsDeployed);
 
   const displayedContractFunctions = useMemo(() => {
     const results = contract
       ? Object.entries(contract.interface.functions).filter(
-          fn => fn[1]["type"] === "function" && !(show && show.indexOf(fn[1]["name"]) < 0),
-        )
+        fn => fn[1]["type"] === "function" && !(show && show.indexOf(fn[1]["name"]) < 0),
+      )
       : [];
     return results;
   }, [contract, show]);
@@ -118,10 +123,10 @@ export default function Contract({
     <div style={{ margin: "auto", width: "70vw" }}>
       <Card
         title={
-          <div style={{fontSize:24}}>
+          <div style={{ fontSize: 24 }}>
             {name}
             <div style={{ float: "right" }}>
-              <Address value={address}/>
+              <Address value={address} />
             </div>
           </div>
         }

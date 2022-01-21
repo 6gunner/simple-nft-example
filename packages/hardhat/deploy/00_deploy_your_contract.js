@@ -2,7 +2,7 @@
 
 const { ethers } = require("hardhat");
 
-const localChainId = "31337";
+const contractName = "CodaCollectible";
 
 // const sleep = (ms) =>
 //   new Promise((r) =>
@@ -12,12 +12,11 @@ const localChainId = "31337";
 //     }, ms)
 //   );
 
-module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
+module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
-  const chainId = await getChainId();
-
-  await deploy("YourContract", {
+  console.log(deployer);
+  await deploy(contractName, {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
     // args: [ "Hello", ethers.utils.parseEther("1.5") ],
@@ -26,13 +25,17 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   });
 
   // Getting a previously deployed contract
-  const YourContract = await ethers.getContract("YourContract", deployer);
-  /*  await YourContract.setPurpose("Hello");
-  
+  const YourContract = await ethers.getContract(contractName, deployer);
+  console.log(YourContract.address);
+  // await YourContract.transferOwnership(
+  //   "0x8ef9f0acfef3d9ab023812bb889a8f5a214b9b82"
+  // );
+
+  /* 
+   await YourContract.setPurpose("Hello");
     To take ownership of yourContract using the ownable library uncomment next line and add the 
     address you want to be the owner. 
-    // await yourContract.transferOwnership(YOUR_ADDRESS_HERE);
-
+    await yourContract.transferOwnership(YOUR_ADDRESS_HERE);
     //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   */
 
@@ -76,4 +79,4 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   //   console.error(error);
   // }
 };
-module.exports.tags = ["YourContract"];
+module.exports.tags = [contractName];
